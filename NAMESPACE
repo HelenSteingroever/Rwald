@@ -15,5 +15,6 @@ dIG_r,
 dswald,
 dswald_r,
 pswald,
-pswald_r
+pswald_r,
+LaguerreL
 )
