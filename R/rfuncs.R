@@ -77,6 +77,7 @@ dwald_r <- function(t, alpha, tau, kappa){
   dwald_gamma_r(t, alpha, tau, kappa)
 }
 
+
 dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
   # In
   #   t: RT [ms] >0	
@@ -104,8 +105,36 @@ dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
       L3 <- LaguerreL(-(1/2)*tau, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
       L4 <- LaguerreL(-(1/2)*tau, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
-    
-      C1 <- sin((1/2)*pi*tau)*gamma(-(1/2)*tau+3/2)
+      
+      if (tau >= 3) {
+        if (tau == 3) {  # then: gamma(0)
+          Z1 <- digamma(1)
+        } else {  
+            if ((-(1/2)*tau+3/2)%%1 == 0) {
+              Z1 <- neg_int_gamma(-(1/2)*tau+3/2)         	
+            } else {
+          	  Z1 <- neg_gamma(-(1/2)*tau+3/2)
+          }
+        }         	
+      } else {     
+        Z1 <- gamma(-(1/2)*tau+3/2)
+      }
+
+	  if (tau >= 4) {
+	    if (tau == 4) {  # then: gamma(0)
+	      Z2 <- digamma(1)
+	    } else {  
+	        if ((-(1/2)*tau+2)%%1 == 0) {
+	          Z2 <- neg_int_gamma(-(1/2)*tau+2)         	
+	        } else {
+	    	    Z2 <- neg_gamma(-(1/2)*tau+2)
+	      }
+	    }         	
+	  } else {     
+	    Z2 <- gamma(-(1/2)*tau+2) 
+	  }                 
+      
+      C1 <- sin((1/2)*pi*tau)*Z1
     
       C2 <- sqrt(2)*alpha^3*kappa^3*sqrt(t)
     
@@ -144,9 +173,9 @@ dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
     
       2*
       L3*
-      cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*alpha^2*kappa^3*t +
+      cos((1/2)*pi*tau)*Z2*alpha^2*kappa^3*t +
     
-      2*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*
+      2*cos((1/2)*pi*tau)*Z2*
       L4*
       alpha^2*kappa^3*t +
     
@@ -156,7 +185,7 @@ dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
     
       2*
       L3*
-      cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*kappa^3*t^2 +
+      cos((1/2)*pi*tau)*Z2*kappa^3*t^2 +
     
       3*C1*
       L1*
@@ -168,9 +197,9 @@ dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
     
       4* 			
       L3*
-      cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*alpha*kappa^2*t -
+      cos((1/2)*pi*tau)*Z2*alpha*kappa^2*t -
     
-      4*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*
+      4*cos((1/2)*pi*tau)*Z2*
       L4*
       alpha*kappa^2*t -
     
@@ -184,15 +213,15 @@ dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
     
       2*
       L3*
-      cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*kappa*t +
+      cos((1/2)*pi*tau)*Z2*kappa*t +
     
-      2*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*
+      2*cos((1/2)*pi*tau)*Z2*
       L4*
       kappa*t
     
       )/
     
-      (gamma(tau)*C1*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2))
+      (gamma(tau)*C1*cos((1/2)*pi*tau)*Z2)
    }
  }
   return(d)
@@ -222,8 +251,36 @@ dwald_gamma_r_log <- function(t, alpha, tau, kappa){
     L3 <- LaguerreL(-(1/2)*tau, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
     L4 <- LaguerreL(-(1/2)*tau, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+
+    if (tau >= 3) {
+      if (tau == 3) {  # then: gamma(0)
+        Z1 <- digamma(1)
+      } else {  
+          if ((-(1/2)*tau+3/2)%%1 == 0) {
+            Z1 <- neg_int_gamma(-(1/2)*tau+3/2)         	
+          } else {
+        	Z1 <- neg_gamma(-(1/2)*tau+3/2)
+        }
+      }         	
+    } else {     
+      Z1 <- gamma(-(1/2)*tau+3/2)
+    }
+
+	if (tau >= 4) {
+	  if (tau == 4) {  # then: gamma(0)
+	    Z2 <- digamma(1)
+	  } else {  
+	      if ((-(1/2)*tau+2)%%1 == 0) {
+	        Z2 <- neg_int_gamma(-(1/2)*tau+2)         	
+	      } else {
+	  	    Z2 <- neg_gamma(-(1/2)*tau+2)
+	    }
+	  }         	
+	} else {     
+	  Z2 <- gamma(-(1/2)*tau+2) 
+	}   
     
-    C1 <- sin((1/2)*pi*tau)*gamma(-(1/2)*tau+3/2)
+    C1 <- sin((1/2)*pi*tau)*Z1
     
     C2 <- sqrt(2)*alpha^3*kappa^3*sqrt(t)
     
@@ -264,9 +321,9 @@ dwald_gamma_r_log <- function(t, alpha, tau, kappa){
     
     2*
     L3*
-    cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*alpha^2*kappa^3*t +
+    cos((1/2)*pi*tau)*Z2*alpha^2*kappa^3*t +
     
-    2*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*
+    2*cos((1/2)*pi*tau)*Z2*
     L4*
     alpha^2*kappa^3*t +
     
@@ -276,7 +333,7 @@ dwald_gamma_r_log <- function(t, alpha, tau, kappa){
     
     2*
     L3*
-    cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*kappa^3*t^2 +
+    cos((1/2)*pi*tau)*Z2*kappa^3*t^2 +
     
     3*C1*
     L1*
@@ -288,9 +345,9 @@ dwald_gamma_r_log <- function(t, alpha, tau, kappa){
     
     4* 			
     L3*
-    cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*alpha*kappa^2*t -
+    cos((1/2)*pi*tau)*Z2*alpha*kappa^2*t -
     
-    4*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*
+    4*cos((1/2)*pi*tau)*Z2*
     L4*
     alpha*kappa^2*t -
     
@@ -304,16 +361,16 @@ dwald_gamma_r_log <- function(t, alpha, tau, kappa){
     
     2*
     L3*
-    cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*kappa*t +
+    cos((1/2)*pi*tau)*Z2*kappa*t +
     
-    2*cos((1/2)*pi*tau)*gamma(-(1/2)*tau+2)*
+    2*cos((1/2)*pi*tau)*Z2*
     L4*
     kappa*t
 
        
     ) ) -
     
-    log(gamma(tau)) - log(C1) - log(cos((1/2)*pi*tau)) - log(gamma(-(1/2)*tau+2))
+    log(gamma(tau)) - log(C1) - log(cos((1/2)*pi*tau)) - log(Z2)
  }
   return(d)
 }
