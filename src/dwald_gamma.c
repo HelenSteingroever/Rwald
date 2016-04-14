@@ -141,7 +141,7 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
         double Z2;
         double C1; 
         double C2; 
-                                                   
+        
         L1 = LaguerreL(-(.5)*tau+.5, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
         
         L2 = LaguerreL(-(.5)*tau+.5, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
