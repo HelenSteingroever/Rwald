@@ -25,6 +25,7 @@ neg_gamma <- function(x) -pi / (-x*gamma(-x)*sin(pi*(-x)))
 neg_int_gamma <- function(x) ((-1) ^ (-x) / factorial(-x)) * (phi(-x) + digamma(1))
 
 LaguerreL_r <- function(n, a, x) {
+  warning("LaguerreL_r is deprecated, use laguerrel_r instead!")
   return(laguerrel_r(n,a,x))
 }
 
