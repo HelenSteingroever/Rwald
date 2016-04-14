@@ -1,4 +1,5 @@
 useDynLib(RWald, dIG_c = dIG,
+                 laguerrel_c = laguerrel,
                  dwald_gamma_c = dwald_gamma,
                  dwald_trunc_c = dwald_trunc,
                  dswald_c = dswald,
@@ -16,5 +17,6 @@ dswald,
 dswald_r,
 pswald,
 pswald_r,
-LaguerreL
+laguerrel,
+LaguerreL_r
 )

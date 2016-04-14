@@ -24,7 +24,11 @@ neg_gamma <- function(x) -pi / (-x*gamma(-x)*sin(pi*(-x)))
 
 neg_int_gamma <- function(x) ((-1) ^ (-x) / factorial(-x)) * (phi(-x) + digamma(1))
 
-LaguerreL <- function(n, a, x) {
+LaguerreL_r <- function(n, a, x) {
+  return(laguerrel_r(n,a,x))
+}
+
+laguerrel_r <- function(n, a, x) {
   if (n+a+1 <= 0) {
     if (n+a+1 == 0) {
       c1 <- digamma(1)  # - Euler's constant
@@ -98,13 +102,13 @@ dwald_gamma_r <- function(t, alpha, tau, kappa, give_log=FALSE){
     }
     else 
     {
-      L1 <- LaguerreL(-(1/2)*tau+1/2, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+      L1 <- laguerrel_r(-(1/2)*tau+1/2, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
-      L2 <- LaguerreL(-(1/2)*tau+1/2, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+      L2 <- laguerrel_r(-(1/2)*tau+1/2, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
-      L3 <- LaguerreL(-(1/2)*tau, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+      L3 <- laguerrel_r(-(1/2)*tau, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
-      L4 <- LaguerreL(-(1/2)*tau, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+      L4 <- laguerrel_r(-(1/2)*tau, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
       
       if (tau >= 3) {
         if (tau == 3) {  # then: gamma(0)
@@ -244,13 +248,13 @@ dwald_gamma_r_log <- function(t, alpha, tau, kappa){
   }
   else 
   {
-    L1 <- LaguerreL(-(1/2)*tau+1/2, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+    L1 <- laguerrel_r(-(1/2)*tau+1/2, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
-    L2 <- LaguerreL(-(1/2)*tau+1/2, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+    L2 <- laguerrel_r(-(1/2)*tau+1/2, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
-    L3 <- LaguerreL(-(1/2)*tau, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+    L3 <- laguerrel_r(-(1/2)*tau, 1/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
     
-    L4 <- LaguerreL(-(1/2)*tau, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
+    L4 <- laguerrel_r(-(1/2)*tau, 3/2, (1/2)*(alpha*kappa-1)^2/(kappa^2*t))
 
     if (tau >= 3) {
       if (tau == 3) {  # then: gamma(0)

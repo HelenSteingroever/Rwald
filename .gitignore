@@ -6,3 +6,4 @@ src/dIG.o
 src/dswald.o
 src/dwald_gamma.o
 src/pswald.o
+src/laguerrel.o

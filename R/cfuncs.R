@@ -41,3 +41,8 @@ pswald <- function(t, alpha, nu, theta, lower.tail=TRUE, log.p=FALSE){
   }
   return(d)
 }
+
+laguerrel <- function(n, a, x) {
+  d <- .Call(laguerrel_c, n, a, x)
+  return(d)
+}
