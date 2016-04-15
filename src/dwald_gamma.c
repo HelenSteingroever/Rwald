@@ -37,12 +37,75 @@ double neg_gamma(double x)
 double neg_int_gamma(double x)
 {
     return(pow(-1.,-x) / factorial(-x)) * (phi(-x) + digamma(1));
-
 }
 
 int is_int(double f)
 {
 	return floorf(f)==f;
+}
+
+double LaguerreL(double n, double a, double x) 
+{
+  double Lf;
+  double c1;
+  double c2;
+  double c3;
+
+    if (n+a+1 <= 0)
+    {
+        if (n+a+1 == 0)
+        {
+            c1 = digamma(1);
+        } else {
+            if (is_int(n+a+1))
+            {
+                c1 = neg_int_gamma(n+a+1);
+            } else
+            {
+                c1 = neg_gamma(n+a+1);
+            }
+        }
+    }else {
+        c1 = r_gamma(n+a+1);
+    }
+    
+    if (n+1 <= 0)
+    {
+        if (n+1 == 0)
+        {
+            c2 = digamma(1);
+        } else
+        {
+            if (is_int(n+1))
+            {
+                c2 = neg_int_gamma(n+1);
+            } else
+            {
+                c2 = neg_gamma(n+1);
+            }
+        }
+    }else
+    {
+        c2 = r_gamma(n+1);
+    }
+    
+    if (a+1 <= 0) {
+        if (a+1 == 0) {
+            c3 = digamma(1);
+        } else {
+            if (is_int(a+1)) {
+                c3 = neg_int_gamma(a+1);
+            } else {
+                c3 = neg_gamma(a+1);
+            }
+        }
+    }else {
+        c3 = r_gamma(a+1);
+    }
+
+  Lf = c1/(c2*c3) * gsl_sf_hyperg_1F1(-n,a+1,x);
+
+  return Lf;
 }
 
 double erf(double x)
@@ -73,55 +136,17 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
         double L1; 
         double L2; 
         double L3; 
-        double L4;
-        double Z1;
-        double Z2;
+        double L4; 
         double C1; 
         double C2; 
+                                                   
+        L1 = LaguerreL(-(.5)*tau+.5, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
         
-        L1 = laguerrel_d(-(.5)*tau+.5, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
+        L2 = LaguerreL(-(.5)*tau+.5, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
         
-        L2 = laguerrel_d(-(.5)*tau+.5, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
+        L3 = LaguerreL(-(.5)*tau, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
         
-        L3 = laguerrel_d(-(.5)*tau, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
-        
-        L4 = laguerrel_d(-(.5)*tau, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
-
-        if (tau >= 3)
-        {
-            if (tau == 3)
-            {
-                Z1 = digamma(1);
-            } else {
-                if (is_int(-(1/2)*tau+3/2))
-                {
-                    Z1 = neg_int_gamma(-(1/2)*tau+3/2);
-                } else
-                {
-                    Z1 = neg_gamma(-(1/2)*tau+3/2);
-                }
-            }
-        } else {
-            Z1 = r_gamma(-(.5)*tau+3./2.);
-        }
-        
-        if (tau >= 4)
-        {
-            if (tau == 4)
-            {
-                Z2 = digamma(1);
-            } else {
-                if (is_int(-(1/2)*tau+2))
-                {
-                    Z2 = neg_int_gamma(-(1/2)*tau+2);
-                } else
-                {
-                    Z2 = neg_gamma(-(1/2)*tau+2);
-                }
-            }         	
-        } else {     
-            Z2 = r_gamma(-(.5)*tau+2.);
-        }
+        L4 = LaguerreL(-(.5)*tau, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
         
         C1 = sin((.5)*M_PI*tau)*r_gamma(-(.5)*tau+3./2.);
         
@@ -237,54 +262,16 @@ double dwald_gamma_d(double t, double alpha, double tau, double kappa, int give_
           double L2; 
           double L3; 
           double L4;
-          double Z1;
-          double Z2;
           double C1; 
           double C2; 
                                                      
-          L1 = laguerrel_d(-(.5)*tau+.5, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
+          L1 = LaguerreL(-(.5)*tau+.5, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
           
-          L2 = laguerrel_d(-(.5)*tau+.5, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
+          L2 = LaguerreL(-(.5)*tau+.5, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
           
-          L3 = laguerrel_d(-(.5)*tau, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
+          L3 = LaguerreL(-(.5)*tau, .5, (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
           
-          L4 = laguerrel_d(-(.5)*tau, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
-
-          if (tau >= 3)
-          {
-              if (tau == 3)
-              {
-                  Z1 = digamma(1);
-              } else {
-                  if (is_int(-(1/2)*tau+3/2))
-                  {
-                      Z1 = neg_int_gamma(-(1/2)*tau+3/2);
-                  } else
-                  {
-                      Z1 = neg_gamma(-(1/2)*tau+3/2);
-                  }
-              }
-          } else {
-              Z1 = r_gamma(-(.5)*tau+3./2.);
-          }
-          
-          if (tau >= 4)
-          {
-              if (tau == 4)
-              {
-                  Z2 = digamma(1);
-              } else {
-                  if (is_int(-(1/2)*tau+2))
-                  {
-                      Z2 = neg_int_gamma(-(1/2)*tau+2);
-                  } else
-                  {
-                      Z2 = neg_gamma(-(1/2)*tau+2);
-                  }
-              }
-          } else {
-              Z2 = r_gamma(-(.5)*tau+2.);
-          }
+          L4 = LaguerreL(-(.5)*tau, 3./2., (.5)*pow(alpha*kappa-1.,2)/(pow(kappa,2)*t));
           
           C1 = sin((.5)*M_PI*tau)*r_gamma(-(.5)*tau+3./2.);
           
