@@ -19,7 +19,7 @@ double laguerrel_d(double n, double a, double x)
         {
             c1 = digamma(1);
         } else {
-            if (is_int(n+a+1))
+            if (fmod((n+a+1),1) == 0)
             {
                 c1 = neg_int_gamma(n+a+1);
             } else
@@ -38,7 +38,7 @@ double laguerrel_d(double n, double a, double x)
             c2 = digamma(1);
         } else
         {
-            if (is_int(n+1))
+            if (fmod((n+1),1) == 0)
             {
                 c2 = neg_int_gamma(n+1);
             } else
@@ -55,7 +55,7 @@ double laguerrel_d(double n, double a, double x)
         if (a+1 == 0) {
             c3 = digamma(1);
         } else {
-            if (is_int(a+1)) {
+            if (fmod((a+1),1) == 0) {
                 c3 = neg_int_gamma(a+1);
             } else {
                 c3 = neg_gamma(a+1);
