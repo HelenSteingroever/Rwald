@@ -37,6 +37,7 @@ double neg_gamma(double x)
 double neg_int_gamma(double x)
 {
     return(pow(-1.,-x) / factorial(-x)) * (phi(-x) + digamma(1));
+
 }
 
 int is_int(double f)
@@ -122,7 +123,7 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
             Z2 = r_gamma(-(.5)*tau+2.);
         }
         
-        C1 = sin((.5)*M_PI*tau)*Z1;
+        C1 = sin((.5)*M_PI*tau)*r_gamma(-(.5)*tau+3./2.);
         
         C2 = sqrt(2.)*pow(alpha,3)*pow(kappa,3)*sqrt(t);
         
@@ -161,9 +162,9 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
          
          2.*
          L3*
-         cos((.5)*M_PI*tau)*Z2*pow(alpha,2)*pow(kappa,3)*t +
+         cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*pow(alpha,2)*pow(kappa,3)*t +
          
-         2.*cos((.5)*M_PI*tau)*Z2*
+         2.*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*
          L4*
          pow(alpha,2)*pow(kappa,3)*t +
          
@@ -173,7 +174,7 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
          
          2.*
          L3*
-         cos((.5)*M_PI*tau)*Z2*pow(kappa,3)*pow(t,2) +
+         cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*pow(kappa,3)*pow(t,2) +
          
          3.*C1*
          L1*
@@ -185,9 +186,9 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
          
          4.*
          L3*
-         cos((.5)*M_PI*tau)*Z2*alpha*pow(kappa,2)*t -
+         cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*alpha*pow(kappa,2)*t -
          
-         4.*cos((.5)*M_PI*tau)*Z2*
+         4.*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*
          L4*
          alpha*pow(kappa,2)*t -
          
@@ -201,15 +202,15 @@ double dwald_gamma_d_log(double t, double alpha, double tau, double kappa)
          
          2.*
          L3*
-         cos((.5)*M_PI*tau)*Z2*kappa*t +
+         cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*kappa*t +
          
-         2.*cos((.5)*M_PI*tau)*Z2*
+         2.*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*
          L4*
          kappa*t
          
          ))-
         
-        log(r_gamma(tau)) -log(C1) - log(cos((.5)*M_PI*tau)) - log(Z2);
+        log(r_gamma(tau)) -log(C1) - log(cos((.5)*M_PI*tau)) - log(r_gamma(-(.5)*tau+2.));
     }
     return(d);
 }
@@ -285,7 +286,7 @@ double dwald_gamma_d(double t, double alpha, double tau, double kappa, int give_
               Z2 = r_gamma(-(.5)*tau+2.);
           }
           
-          C1 = sin((.5)*M_PI*tau)*Z1;
+          C1 = sin((.5)*M_PI*tau)*r_gamma(-(.5)*tau+3./2.);
           
           C2 = sqrt(2.)*pow(alpha,3)*pow(kappa,3)*sqrt(t);
           
@@ -324,9 +325,9 @@ double dwald_gamma_d(double t, double alpha, double tau, double kappa, int give_
            
            2.*
            L3*
-           cos((.5)*M_PI*tau)*Z2*pow(alpha,2)*pow(kappa,3)*t +
+           cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*pow(alpha,2)*pow(kappa,3)*t +
            
-           2.*cos((.5)*M_PI*tau)*Z2*
+           2.*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*
            L4*
            pow(alpha,2)*pow(kappa,3)*t +
            
@@ -336,7 +337,7 @@ double dwald_gamma_d(double t, double alpha, double tau, double kappa, int give_
            
            2.*
            L3*
-           cos((.5)*M_PI*tau)*Z2*pow(kappa,3)*pow(t,2) +
+           cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*pow(kappa,3)*pow(t,2) +
            
            3.*C1*
            L1*
@@ -348,9 +349,9 @@ double dwald_gamma_d(double t, double alpha, double tau, double kappa, int give_
            
            4.*
            L3*
-           cos((.5)*M_PI*tau)*Z2*alpha*pow(kappa,2)*t -
+           cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*alpha*pow(kappa,2)*t -
            
-           4.*cos((.5)*M_PI*tau)*Z2*
+           4.*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*
            L4*
            alpha*pow(kappa,2)*t -
            
@@ -364,15 +365,15 @@ double dwald_gamma_d(double t, double alpha, double tau, double kappa, int give_
            
            2.*
            L3*
-           cos((.5)*M_PI*tau)*Z2*kappa*t +
+           cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*kappa*t +
            
-           2.*cos((.5)*M_PI*tau)*Z2*
+           2.*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.)*
            L4*
            kappa*t
            
            )/
           
-          (r_gamma(tau)*C1*cos((.5)*M_PI*tau)*Z2);
+          (r_gamma(tau)*C1*cos((.5)*M_PI*tau)*r_gamma(-(.5)*tau+2.));
       }
     }
     return(d);
