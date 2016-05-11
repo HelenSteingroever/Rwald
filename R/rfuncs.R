@@ -1,3 +1,4 @@
+
 dwald_r <- function(t, alpha, tau, kappa){
   dwald_gamma_r(t, alpha, tau, kappa)
 }
@@ -384,10 +385,11 @@ dwald_trunc_r <- function(t, lambda, alpha, v, delta, give_log=FALSE){
   if(give_log)
   {
     d <- log(alpha) + 
-         0.5 * ( log(lambda) - log(2) - log(pi) - 3 * log(t) - log(lambda * t * v + 1)) -
-         log(pnorm(delta / sqrt(v)) ) -
-         (lambda * (delta * t - alpha)^2) / (2 * t * (lambda * t * v + 1)) +
-         log(pnorm((lambda * alpha * v + delta) / (sqrt(lambda * t * v^2 + v))))
+      0.5 * ( log(lambda) - log(2) - log(pi) - 3 * log(t) - log(lambda * t * v + 1)) -
+      log(pnorm(delta / sqrt(v)) ) -
+      (lambda * (delta * t - alpha)^2) / (2 * t * (lambda * t * v + 1)) +
+      log(pnorm((lambda * alpha * v + delta) / (sqrt(lambda * t * v^2 + v))))
+         
   }
   else
   {
