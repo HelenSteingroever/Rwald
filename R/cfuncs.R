@@ -18,10 +18,10 @@ dwald_gamma <- function(t, alpha, tau, kappa, give_log=FALSE){
   return(d)
 }
 
-dwald_trunc <- function(t, lambda, alpha, v, delta, give_log=FALSE){
+dwald_trunc <- function(t, lambda, alpha, v, delta, theta, give_log=FALSE){
   d <- vector("double", length=length(t))
   for (i in 1:length(t)) {
-    d[i] <- .Call(dwald_trunc_c, t[i], lambda, alpha, v, delta, give_log)
+    d[i] <- .Call(dwald_trunc_c, t[i], lambda, alpha, v, delta, theta, give_log)
   }
   return(d)
 } 
